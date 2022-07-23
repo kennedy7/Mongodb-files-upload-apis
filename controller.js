@@ -52,14 +52,15 @@ const GetImage = async (req, res)=>{
                 err: 'file not found'
             })
            }
-         if(file.contentType === 'image/jpeg' || file.contentType === 'image/png' ){
+            if(file.contentType === 'image/jpeg' || file.contentType === 'image/png' || file.contentType === 'image/svg+xml' ){
             //display output to browser 
-            const readStream = gridfsBucket.openDownloadStreamByName(file.filename, {files})
-            readStream.pipe(res)
+            gridfsBucket.openDownloadStreamByName(req.params.filename).pipe(res)
          }
-         return res.status(404).send({
+         else{
+            res.status(404).send({
             err: 'Not an Image'
         })
+    }
 
     })
   

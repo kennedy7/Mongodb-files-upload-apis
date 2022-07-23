@@ -14,7 +14,6 @@ module.exports = function(){
         gridfsBucket = new mongoose.mongo.GridFSBucket(conn.db, {
         bucketName: 'uploads'
     });
-
     //create stream
     gfs = Grid(conn.db, mongoose.mongo);
     gfs.collection('uploads')
