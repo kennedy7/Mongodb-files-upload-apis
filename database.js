@@ -3,7 +3,7 @@ const mongoURI= 'mongodb://localhost:27017/filesUpload'
 const Grid = require ('gridfs-stream');
 
 
-module.exports = function(){
+exports.dbSetup = function(){
     const conn = mongoose.createConnection(mongoURI, ()=>{
         console.log('database successfully connected')
     })
@@ -11,17 +11,14 @@ module.exports = function(){
     let gfs, gridfsBucket;
     conn.once('open', ()=>{
 
+          //create stream
+           gfs = Grid(conn.db, mongoose.mongo);
+           gfs.collection('uploads')
+
         gridfsBucket = new mongoose.mongo.GridFSBucket(conn.db, {
         bucketName: 'uploads'
-    });
-    //create stream
-    gfs = Grid(conn.db, mongoose.mongo);
-    gfs.collection('uploads')
-
-
-    module.exports = {gfs, gridfsBucket};
+    }); 
+    module.exports = {gfs, gridfsBucket}
 })
 
-
 }
-
